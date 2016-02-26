@@ -1,0 +1,95 @@
+-->> Deploy Java file
+
+
+1.         How to deploy a Java WAR package via File Manager
+
+To deploy a Java WAR package via cPanel's File Manager interface, perform the following steps:
+
+   - Select your public_html directory.
+   - Click New Folder and enter the name that you wish to use for the folder.
+   - Select your new folder in the center pane of the interface.
+   - Click Upload.
+  - Click Choose File.
+  - Browse to the Java WAR package on your local system and select it. Click Open to upload the file.
+   - Select the file in the center pane of the interface. Click Rename.
+  - Change the file extension from .war to .zip and click Rename File.
+   - Select the .zip file and click Extract.
+
+    Select the .htaccess file inside your public_html directory.
+
+    Note:  If you do not see the .htaccess file inside your public_html directory, perform the following steps:
+
+       - Exit the File Manager interface.
+       - Refresh your cPanel interface.
+       - Click File Manager and select the Show Hidden Files (dotfiles). option. 
+       - Click Go.
+       - Click Edit.
+       - Click Edit in the Text Editor window.
+
+    Enter the following text into the text box:
+===============        
+    SetHandler jakarta-servlet
+    SetEnv JK_WORKER_NAME ajp13
+
+===============
+    Click Save Changes.
+
+    Access your Java application with the http://example.com/exampledirectory/examplejavaapplication URL.
+
+    Notes:
+        Replace example.com with your domain name.
+        Replace exampledirectory with the directory of the Java application
+        Replace examplejavaapplication with the name of the Java application.
+
+
+
+2.         How to deploy a JAVA WAR package via CLI
+
+Important: If you do not have shell access, you must use the How to deploy a Java WAR package via File Manager method.
+
+To deploy a Java WAR package via the CLI, perform the following steps:
+
+    Upload your Java WAR package to your public_html directory.
+
+    Run the  unzip filename.war command to extract the package.
+
+    Note:
+
+    In the above command, replace filename.war with the name of your Java WAR package file.
+
+    Edit the .htaccess file within your public_html directory to include the following text:
+
+===================             
+    SetHandler jakarta-servlet
+    SetEnv JK_WORKER_NAME ajp13
+    Save the changes.
+===================
+
+    Access your Java application with the http://example.com/exampledirectory/examplejavaapplication URL.
+
+    Notes:
+        Replace example.com with your domain name.
+        Replace exampledirectory with the directory of the Java application
+        Replace examplejavaapplet with the name of the Java application
+
+
+
+==============================================================================================================
+
+
+-->> Install servelets
+
+
+Before that don’t forget to install servlets for the domain from WHM
+
+To enable Java servlets for a site/domain via the command line, run the following command as the root user:
+/scripts/addservlets --domain=example.com
+
+To enable Java servlets for a subdomain or addon domain, run the following command on the associated subdomain:
+/scripts/addservlets --domain=subdomain.example.com
+
+To remove Tomcat servlets from a site via the command line, run the following script as the root user:
+/scripts/remservlets --domain=example.com
+==============================================================================================================
+
+
