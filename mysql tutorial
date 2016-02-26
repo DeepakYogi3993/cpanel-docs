@@ -1,0 +1,249 @@
+MySQL Tutorials
+
+
+How to Access the MySQL shell
+
+Once you have MySQL installed from command line,  Further you can access the MySQL shell by typing the following command on the shell:-
+
+[root@station3 ~]# mysql –u root –p
+
+By entering above command you’ll prompt for MySQL password… So after entering MySQL credentials you’ll see MySQL command prompt and now you can create your database.. 
+
+How to set MySQL Root password
+You can set MySQL root password to enable database password protection 
+# mysqladmin -u root password YOURNEWPASSWORD
+
+How to Change MySQL Root password
+To change MySQL root password please use below command
+# mysqladmin -u root -p123456 password 'xyz123'
+
+How to check MySQL Server is running.
+To check if MySQL is active and running 
+# mysqladmin -u root -p ping
+Enter password:
+mysqld is alive
+
+How to Check which MySQL version I am running
+This command will show MySQL version with current running process. 
+# mysqladmin -u root -p version
+
+How to Find out current Status of MySQL server
+This command will show MySQL status of uptime with running threads and queries.
+# mysqladmin -u root -ptmppassword status
+
+How to check status of all MySQL Server Variable’s and value’s
+To check all the running status of MySQL server variables and values, type the following command.
+# mysqladmin -u root -p extended-status
+
+How to see all MySQL server Variables and Values
+To see all the running variables and values of MySQL server run below command:- 
+# mysqladmin  -u root -p variables
+
+How to check all the running Process of MySQL server
+This command will display all the running process of MySQL database queries:-
+# mysqladmin -u root -p processlist
+
+How to reload/refresh MySQL Privileges
+# mysqladmin -u root -p reload;
+# mysqladmin -u root -p refresh;
+
+How to shutdown MySQL server Safely
+# mysqladmin -u root -p shutdown
+
+How to kill Sleeping MySQL Client Process
+Use below command to identify sleeping queries 
+# mysqladmin -u root -p processlist
+
+Enter password:
++----+------+-----------+----+---------+------+-------+------------------+
+| Id | User | Host      | db | Command | Time | State | Info             |
++----+------+-----------+----+---------+------+-------+------------------+
+| 5  | root | localhost |    | Sleep   | 14   |       |					 |
+| 8  | root | localhost |    | Query   | 0    |       | show processlist |
++----+------+-----------+----+---------+------+-------+------------------+
+
+Now, run the following command with kill and process ID as shown below:- 
+
+# mysqladmin -u root -p kill 5,10,12
+
+Enter password:
++----+------+-----------+----+---------+------+-------+------------------+
+| Id | User | Host      | db | Command | Time | State | Info             |
++----+------+-----------+----+---------+------+-------+------------------+
+| 12 | root | localhost |    | Query   | 0    |       | show processlist |
++----+------+-----------+----+---------+------+-------+------------------+
+
+
+How to Connect remote mysql server
+To connect remote MySQL server, use the -h (host)  with IP Address of remote machine.
+# mysqladmin  -h 192.188.1.16 -u root –p
+
+
+How to execute command on remote MySQL server
+If you want to see the status of remote MySQL server, then the command would be:-
+# mysqladmin  -h 172.16.25.126 -u root -p status
+
+Note:- More you can run mysqladmin –help command for help
+
+
+Points keep in Mind:-
+ All MySQL commands end with a semicolon “ ; “   if phase does not end with the ; then command will not execute..
+MySQL commands are usually written in uppercase and tables, usernames,  databases, or text are in lowercase to make them easier to understand.. However, the MySQL command line is not case sensitive.
+
+
+How to Create and Delete a MySQL Database
+
+MySQL store its information into databases; each one can hold tables with specific data in database.
+You can check the list of database from below command:- 
+SHOW DATABASES;
+You’ll see something like this:-
+
+
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| mysql              |
++--------------------+
+2 rows in set (0.07 sec)
+
+Now we are going to create a new database from command line interface:- 
+CREATE DATABASE database-name;
+This will create a database replace the database-name with your desire database name… 
+You can again see your database from SHOW DATABASES;  command 
+
+Now we are going to drop the database so to drop database we’ll use below command:-
+DROP DATABASE database-name;
+
+How to Access a MySQL Database	
+Once we have created a new database now we are going to fill the information….
+The first step to create a new table in one of the database…
+We’ll open the database which we’ll use
+# Use ashish_znet;
+# SHOW tables;
+Since this is a new database, MySQL has nothing to show, and you‘ll get a message that says, “Empty set”
+
+Now how to Create a MySQL Table
+
+Let’s suppose we are storing information for planning for ture with friends :-
+
+CREATE TABLE serveradmin (id INT NOT NULL PRIMARY KEY AUTO_INCREMENT, 
+name VARCHAR(20),
+food VARCHAR(30),
+confirmed CHAR(1), 
+signup_date DATE);
+
+This command describes a number of things:
+It has created a table called potluck within the directory, events. 
+We have set up 5 columns in the table—id, name, food, confirmed, and signup date. 
+The “id” column has a command (INT NOT NULL PRIMARY KEY AUTO_INCREMENT) that automatically numbers each row.
+The “name” column has been limited by the VARCHAR command to be under 20 characters long.
+The “food” column designates the food each person will bring. The VARCHAR limits text to be under 30 characters.
+The “confirmed” column records whether the person has RSVP’d with one letter, Y or N. 
+The “date” column will show when they signed up for the event. MySQL requires that dates be written as yyyy-mm-dd
+
+Let’s check how tables look like in database:-
+mysql> SHOW TABLES;
++------------------+
+| Tables_in_events |
++------------------+
+| serveradmin      |
++------------------+
+1 row in set (0.01 sec)
+We can see table organization from below command :-
+DESCRIBE serveradmin;
+OR
+DESC serveradmin;
+Keep in mind throughout that the MySQL command line does not pay attention to cases, the table and database names are case sensitive: serveradmin is not the same as SERVERADMIN….
+
+mysql>DESCRIBE serveradmin;
++-------------+-------------+------+-----+---------+----------------+
+| Field       | Type        | Null | Key | Default | Extra          |
++-------------+-------------+------+-----+---------+----------------+
+| id          | int(11)     | NO   | PRI | NULL    | auto_increment |
+| name        | varchar(20) | YES  |     | NULL    |                |
+| food        | varchar(30) | YES  |     | NULL    |                |
+| confirmed   | char(1)     | YES  |     | NULL    |                |
+| signup_date | date        | YES  |     | NULL    |                |
++-------------+-------------+------+-----+---------+----------------+
+5 rows in set (0.01 sec)
+
+
+
+How to Add Information to a MySQL Table
+Now we are filling data in the table…
+Use below command to insert data in table
+INSERT INTO `serveradmin` (`id`,`name`,`food`,`confirmed`,`signup_date`) VALUES (NULL, "Ashish", "Pizza","Y", '2015-06-14');
+
+Like this you can add couple of entries in the MySQL table…
+
+We can see our table from below command :-
+
+mysql> SELECT * FROM potluck;
++----+-------+----------------+-----------+-------------+
+| id | name  | food           | confirmed | signup_date |
++----+-------+----------------+-----------+-------------+
+|  1 | Ashish | Pizza         | Y         | 2015-06-14  |
+|  2 | Majid | Key Lime Tarts | N         | 2012-04-14  |
+|  3 | Vishal | BBQ           | Y         | 2012-04-18  |
+|  4 | Ritesh| Salad          | Y         | 2012-04-10  |
++----+-------+----------------+-----------+-------------+
+4 rows in set (0.00 sec)
+How to Update Information in the Table
+Just Suppose we need to change the value of one name that he confirmed so we need to replace Y from N so below will be command….
+
+mysql> UPDATE `serveradmin` SET `confirmed` = "Y" WHERE `serveradmin`.`name` = "Sandy";
+Query OK, 1 row affected (0.05 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> SELECT * FROM serveradmin;
++----+--------+----------------+-----------+-------------+
+| id | name   | food           | confirmed | signup_date |
++----+--------+----------------+-----------+-------------+
+|  1 | ashish | Pizza          | Y         | 2015-06-14  |
+|  2 | Sandy  | Key Lime Tarts | Y         | 2012-04-14  |
+|  3 | Tom    | BBQ            | Y         | 2012-04-18  |
+|  4 | Tina   | Salad          | Y         | 2012-04-10  |
++----+--------+----------------+-----------+-------------+
+4 rows in set (0.01 sec)
+
+
+You can also use this command to add information into specific cells, even if they are empty.
+
+
+How to Add and Delete a Column
+Suppose in case we missing to add some information so we need to add column so we are adding E-Mail column in table…
+
+ALTER TABLE serveradmin ADD E-Mail VARCHAR(40);
+
+This command puts the new column called "email" at the end of the table by default, and the VARCHAR command limits it to 40 characters.
+
+However, if you need to place that column in a specific spot in the table, we can add one more phrase to the command.
+
+ALTER TABLE serveradmin ADD email VARCHAR(40) AFTER name; 
+
+Now the new “emails” column goes after the column “name”.
+Just as you can add a column, you can delete one as well:-
+
+ALTER TABLE potluck DROP email;
+
+
+How to Delete a Row 
+
+In case if you want to delete the ROW then follow the process:- 
+
+DELETE from [table name] where [column name]=[field text];
+
+If you think that ashish from serveradmin has left so to drop we’ll follow the process:-
+
+mysql> DELETE from serveradmin  where name='Ashish';
+Query OK, 1 row affected (0.00 sec)
+
+Note:- The ID number for this name will be same…
+
+
+
+
+
